@@ -23,9 +23,6 @@ producer = KafkaProducer(
 
 for j in range(9999):
     print("Iteration", j)
-    # print(server_value)
-    # print(user_value)
-    # print(password_value)
     data = {'counter': j}
     producer.send(kf_topic, {key_value: data})
     sleep(0.05)
