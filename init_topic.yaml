@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-topic
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      containers:
+      - name: topicmaker
+        image: jowings/py-kafka:1.05
+        command: ["python3",  "create_topic.py"]
+        env:
+        - name: KF_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_SERVER
+        - name: KF_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_USERNAME
+        - name: KF_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_PASSWORD
+        - name: KF_TOPIC
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_TOPIC  
+      restartPolicy: Never
+  backoffLimit: 4

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer-kafka
+  labels:
+    app: producer-kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer-kafka
+  template:
+    metadata:
+      labels:
+        app: producer-kafka
+    spec:
+      containers:
+      - env:
+        - name: KF_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_SERVER
+        - name: KF_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_USERNAME
+        - name: KF_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_PASSWORD
+        - name: KF_TOPIC
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_TOPIC
+        name: producer-kafka
+        image: jowings/py-kafka:1.05
+        imagePullPolicy: Always
+        command: ["python3"]
+        args: ["producer.py"]

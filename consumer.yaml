@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-kafka
+  labels:
+    app: consumer-kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer-kafka
+  template:
+    metadata:
+      labels:
+        app: consumer-kafka
+    spec:
+      containers:
+      - env:
+        - name: KF_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_SERVER
+        - name: KF_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_USERNAME
+        - name: KF_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_PASSWORD
+        - name: KF_TOPIC
+          valueFrom:
+            secretKeyRef:
+              name: pds-kafka-demo-secret
+              key: KF_TOPIC
+        name: consumer-kafka
+        image: jowings/py-kafka:1.05
+        imagePullPolicy: Always
+        command: ["python3"]
+        args: ["consumer.py"]
