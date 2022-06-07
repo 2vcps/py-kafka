@@ -13,11 +13,21 @@ git clone https://github.com/2vcps/py-kafka.git
 4. Deploy to k8s in this order.
 ```
 kubectl apply -f env-secret.yaml
+kubectl apply -f init_topic.yaml
 kubectl apply -f producer.yaml
 kubectl apply -f consumer.yaml
+kubectl apply -f kafka-ui.yaml
+```
+5. Expose or connect to the UI
+```
+kubectl expose pod kafka-ui --type [LoadBalancer|NodePort]
+```
+or
+```
+kubectl port-forward pod/kafka-ui 8080:8080
 ```
 
-5. Optional, Scale the deployments for fun.
+6. Optional, Scale the deployments for fun.
 ```
 kubectl scale deployment producer-kafka --replicas 8
 ```
