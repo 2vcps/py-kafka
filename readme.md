@@ -31,3 +31,5 @@ kubectl port-forward pod/kafka-ui 8080:8080
 ```
 kubectl scale deployment producer-kafka --replicas 8
 ```
+zk-jowings-z53s13-pds-demo-0-vip.sales-prod.pds-dns.io
+iObo6qNKN2YZ7dx5HTKo2CKD4L7PJh6Gw48zdbiW
