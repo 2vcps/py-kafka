@@ -1,6 +1,7 @@
 import sys
 import os
 import platform
+from random import randint
 from time import sleep
 from json import dumps
 from kafka import KafkaProducer
@@ -20,8 +21,8 @@ producer = KafkaProducer(
     sasl_plain_username= user_value,
     sasl_plain_password= password_value
 )
-
-for j in range(9999):
+while True:
+    j = randint(1, 99999999)
     print("Iteration", j)
     data = {'counter': j}
     producer.send(kf_topic, {key_value: data})

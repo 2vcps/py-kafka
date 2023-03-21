@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: consumer-kafka
+  name: order-producer-kafka
   labels:
-    app: consumer-kafka
+    app: order-producer-kafka
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: consumer-kafka
+      app: order-producer-kafka
   template:
     metadata:
       labels:
-        app: consumer-kafka
+        app: order-producer-kafka
     spec:
       containers:
       - env:
@@ -36,8 +36,8 @@ spec:
             secretKeyRef:
               name: pds-kafka-demo-secret
               key: KF_TOPIC
-        name: consumer-kafka
+        name: order-producer-kafka
         image: jowings/py-kafka:1.09
         imagePullPolicy: Always
         command: ["python3"]
-        args: ["consumer.py"]
+        args: ["order_producer.py"]

@@ -1,7 +1,8 @@
 import sys
 import os
 import platform
-import uuid
+import json
+from random import randint
 from time import sleep
 from json import dumps
 from kafka import KafkaProducer
@@ -15,18 +16,18 @@ key_value = str(platform.node())
 
 
 
-# producer = KafkaProducer(
-#     bootstrap_servers= server_value,
-#     value_serializer=lambda m: dumps(m).encode('ascii'),
-#     security_protocol='SASL_PLAINTEXT',
-#     sasl_mechanism='PLAIN',
-#     sasl_plain_username= user_value,
-#     sasl_plain_password= password_value
-# )
+producer = KafkaProducer(
+    bootstrap_servers= server_value,
+    value_serializer=lambda m: dumps(m).encode('ascii'),
+    security_protocol='SASL_PLAINTEXT',
+    sasl_mechanism='PLAIN',
+    sasl_plain_username= user_value,
+    sasl_plain_password= password_value
+)
 
 
 while True:
-    order_id = uuid.uuid4()
+    order_id = randint(10000, 999999999)
     data = {
 	"OrderId": order_id,
 	"Email": "jo@portworx.com",
@@ -42,9 +43,10 @@ while True:
 	"State": "GA",
 	"Zip": "30158",
 	"OrderStatus": "Pending"
-}
+    }
+    #d = json.dumps(data)
     #data = {'counter': j}
-    #producer.send("order", json.dumps(data, default=json_util.default).encode('utf-8'))
-    print(data)
+    producer.send("order", data)
+    #print(d)
     sleep(0.1)
 

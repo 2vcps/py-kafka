@@ -37,7 +37,7 @@ spec:
               name: pds-kafka-demo-secret
               key: KF_TOPIC
         name: producer-kafka
-        image: jowings/py-kafka:1.05
+        image: jowings/py-kafka:1.09
         imagePullPolicy: Always
         command: ["python3"]
         args: ["producer.py"]
