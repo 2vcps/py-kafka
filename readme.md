@@ -31,5 +31,22 @@ kubectl port-forward pod/kafka-ui 8080:8080
 ```
 kubectl scale deployment producer-kafka --replicas 8
 ```
-zk-jowings-z53s13-pds-demo-0-vip.sales-prod.pds-dns.io
-iObo6qNKN2YZ7dx5HTKo2CKD4L7PJh6Gw48zdbiW
+
+# Using Order Producer
+
+1. Edit the `env-secret.yaml` using the px-delivery demo Kafka information.
+2. Deploy in this order
+```
+kubectl apply -f env-secret.yaml
+kubectl apply -f kafka-ui.yaml
+kubectl apply -f order_producer.yaml
+```
+3. Random orders are pushed into Kafka
+4. Expose or connect to the UI and check the "Order" topic
+
+```
+kubectl expose pod kafka-ui --type [LoadBalancer|NodePort]
+```
+or
+```
+kubectl port-forward pod/kafka-ui 8080:8080
